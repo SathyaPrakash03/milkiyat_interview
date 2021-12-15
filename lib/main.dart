@@ -5,7 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:milkiyat/bloc/bloc.dart';
-
+import 'package:shimmer/shimmer.dart';
 import 'model/model.dart';
 
 void main() {
@@ -23,17 +23,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:  const MyHomePage(),
     );
   }
 }
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
 
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -55,7 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
     bloc.fetchAllList();
   }
 
-  final controller = PageController(viewportFraction: 0.8, keepPage: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: Colors.white,
@@ -83,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           initialPage: 1,
                           autoPlayInterval: const Duration(seconds: 2),
                           autoPlayAnimationDuration:
-                          Duration(milliseconds: 100),),
+                          const Duration(milliseconds: 100),),
                         items: background_images.map((i) {
                           return Builder(
                             builder: (BuildContext context) {
@@ -96,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         top: 30.0,
                         left: 0.0,
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.menu,
                             color: Colors.white,
                           ),
@@ -185,7 +183,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         )
                       ),
-
                     ],
                   ),
                 ),
@@ -193,7 +190,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(children: [
                   CarouselSlider(
                     options: CarouselOptions(
-
                       reverse: false,
                       autoPlay: false,
                       onPageChanged: (index, ih) {
@@ -301,8 +297,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                               Text(topPicks[index]['title'],style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,),
-                              SizedBox(height: 10,),
-                              Container(height: 20,
+                              const SizedBox(height: 10,),
+                              SizedBox(height: 20,
                                 child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: topPicks[index]['attributes'].length,
@@ -312,16 +308,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                           padding: const EdgeInsets.only(),
                                           child: Container(
                                             decoration:  BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10) ),
+                                              borderRadius: const BorderRadius.all(Radius.circular(10) ),
                                               color: Colors.grey[300]),
                                             child: Padding(
                                               padding: const EdgeInsets.all(4.0),
                                               child: Row(
                                                 children: [
-                                                  Text(topPicks[index]['attributes'][i]['value'],style: TextStyle(fontSize: 12),),
+                                                  Text(topPicks[index]['attributes'][i]['value'],style: const TextStyle(fontSize: 12),),
                                                   topPicks[index]['attributes'][i]['unit'] == null
-                                                      ? Text("")
-                                                      : Text(" "+topPicks[index]['attributes'][i]['unit'],style: TextStyle(fontSize: 12),)
+                                                      ? const Text("")
+                                                      : Text(" "+topPicks[index]['attributes'][i]['unit'],style: const TextStyle(fontSize: 12),)
                                                 ],
                                               ),
                                             ),
@@ -340,19 +336,54 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           );
           } else {
-            return Container(color: Colors.black,child: const Center(child: CircularProgressIndicator()));
-          }
+              return SizedBox(
+                child: Shimmer.fromColors(
+                    baseColor: Colors.black12,
+                    highlightColor: Colors.blueGrey,
+                    period: const Duration(seconds: 1),
+                    child: Container(
+                      margin: EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 280,
+                            color: Colors.black26,
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            height: 200,
+                            color: Colors.black26,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+
+                          Container(
+                            height: 190,
+                            color: Colors.black26,
+                          ),
+
+
+                        ],
+                      ),
+                    )),
+              );
+            }
         }
       ),
 
 
 
-      bottomNavigationBar:  Container(height: 50,
+      bottomNavigationBar:  SizedBox(height: 50,
         child: BottomNavigationBar(
           currentIndex: 0,
           type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.grey,
-          unselectedIconTheme: IconThemeData(color: Colors.grey),
+          unselectedIconTheme: const IconThemeData(color: Colors.grey),
           selectedItemColor: Colors.orange,
           selectedFontSize: 11.0,
           unselectedFontSize: 11.0,
@@ -361,25 +392,25 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomNavigationBarItem(
               icon: InkWell(
                   onTap: () {},
-                  child: new Icon(Icons.account_balance_outlined,)),
+                  child: const Icon(Icons.account_balance_outlined,)),
               label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: InkWell(
                   onTap: () {},
-                  child: new Icon(Icons.account_balance_wallet,)),
+                  child: const Icon(Icons.account_balance_wallet,)),
               label: 'Explore',
             ),
             BottomNavigationBarItem(
               icon: InkWell(
                   onTap: () {},
-                  child: new Icon(Icons.favorite_border,)),
+                  child: const Icon(Icons.favorite_border,)),
               label: 'Saved',
             ),
             BottomNavigationBarItem(
               icon: InkWell(
                   onTap: () {},
-                  child: new Icon(Icons.notifications_sharp,)),
+                  child: const Icon(Icons.notifications_sharp,)),
               label: 'Notifications',
             ),
           ],
